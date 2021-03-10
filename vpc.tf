@@ -30,3 +30,8 @@ resource "aws_route_table" "training" {
     Name = "public_route_table"
   }
 }
+
+resource "aws_route_table_association" "training" {
+  subnet_id      = aws_subnet.training.id
+  route_table_id = aws_route_table.training.id
+}
