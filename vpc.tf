@@ -14,3 +14,11 @@ resource "aws_subnet" "training" {
     Name = "public_subnet"
   }
 }
+
+resource "aws_internet_gateway" "training" {
+  vpc_id = aws_vpc.training.id
+
+  tags = {
+    Name = "training"
+  }
+}
