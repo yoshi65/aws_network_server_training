@@ -5,3 +5,12 @@ resource "aws_vpc" "training" {
     Name = "training"
   }
 }
+
+resource "aws_subnet" "training" {
+  vpc_id     = aws_vpc.training.id
+  cidr_block = "10.0.1.0/24"
+
+  tags = {
+    Name = "public_subnet"
+  }
+}
