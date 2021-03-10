@@ -22,3 +22,11 @@ resource "aws_internet_gateway" "training" {
     Name = "training"
   }
 }
+
+resource "aws_route_table" "training" {
+  vpc_id = aws_vpc.training.id
+
+  tags = {
+    Name = "public_route_table"
+  }
+}
