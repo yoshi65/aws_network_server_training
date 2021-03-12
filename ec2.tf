@@ -23,6 +23,7 @@ resource "aws_instance" "web" {
   private_ip                  = "10.0.1.10"
   security_groups             = [aws_security_group.WEB-SG.id]
   key_name                    = aws_key_pair.training.key_name
+  user_data                   = file("./user_data.sh")
 
   tags = {
     Name = "web_server"
