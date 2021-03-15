@@ -18,7 +18,7 @@ resource "aws_instance" "web" {
   ami           = data.aws_ami.amazon-linux-2.id
   instance_type = "t2.micro"
 
-  subnet_id                   = aws_subnet.training.id
+  subnet_id                   = aws_subnet.training-public.id
   associate_public_ip_address = true
   private_ip                  = "10.0.1.10"
   security_groups             = [aws_security_group.WEB-SG.id]
