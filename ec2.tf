@@ -30,6 +30,21 @@ resource "aws_instance" "web" {
   }
 }
 
+resource "aws_instance" "db" {
+  ami           = data.aws_ami.amazon-linux-2.id
+  instance_type = "t2.micro"
+
+  subnet_id                   = aws_subnet.training-private.id
+  associate_public_ip_address = false
+  private_ip                  = "10.0.2.10"
+  security_groups             = [aws_security_group.DB-SG.id]
+  key_name                    = aws_key_pair.training.key_name
+
+  tags = {
+    Name = "db_server"
+  }
+}
+
 resource "aws_key_pair" "training" {
   key_name   = "training"
   public_key = file("~/.ssh/training.pub")
