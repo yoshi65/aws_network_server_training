@@ -38,7 +38,7 @@ resource "aws_internet_gateway" "training" {
   }
 }
 
-resource "aws_route_table" "training" {
+resource "aws_route_table" "training-public" {
   vpc_id = aws_vpc.training.id
 
   route {
@@ -51,7 +51,44 @@ resource "aws_route_table" "training" {
   }
 }
 
-resource "aws_route_table_association" "training" {
+resource "aws_route_table_association" "training-public" {
   subnet_id      = aws_subnet.training-public.id
-  route_table_id = aws_route_table.training.id
+  route_table_id = aws_route_table.training-public.id
+}
+
+resource "aws_route_table" "training-private" {
+  vpc_id = aws_vpc.training.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_nat_gateway.training.id
+  }
+
+  tags = {
+    Name = "private_route_table"
+  }
+}
+
+resource "aws_route_table_association" "training-private" {
+  subnet_id      = aws_subnet.training-private.id
+  route_table_id = aws_route_table.training-private.id
+}
+
+resource "aws_eip" "training" {
+  vpc = true
+
+  tags = {
+    Name = "training"
+  }
+}
+
+resource "aws_nat_gateway" "training" {
+  allocation_id = aws_eip.training.id
+  subnet_id     = aws_subnet.training-public.id
+
+  tags = {
+    Name = "training"
+  }
+
+  depends_on = [aws_internet_gateway.training]
 }
