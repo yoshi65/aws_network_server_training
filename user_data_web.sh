@@ -6,7 +6,7 @@ sudo systemctl start httpd.service
 sudo systemctl enable httpd.service
 
 # 8-3
-sudo amazon-linux-extras -y install php7.3
+sudo amazon-linux-extras install -y php7.3
 sudo yum -y install php php-mbstring
 sudo yum -y install mariadb-server
 
